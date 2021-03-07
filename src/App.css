@@ -1,38 +1,69 @@
 .App {
+  padding: 0 10px 0 10px;
+  height: 100vh;
   text-align: center;
+  background-color: #1f1f1f;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.Result {
+  color: white;
+  font-size: 10vmin;
+  text-align: right;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.KeyPad {
+  height: 50vh;
+  display: flex;
+  flex-direction: row;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.NumberPad {
+  flex: 3 1 auto;
   display: flex;
   flex-direction: column;
-  align-items: center;
+}
+
+.OperatorPad {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.NumberRow {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: row;
+}
+
+.Key {
+  margin: 1px;
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  background-color: #131313;
+  color: #fff;
+  font-size: 5vmin;
+  user-select: none;
 }
 
-.App-link {
-  color: #61dafb;
+.Key:hover {
+  background-color: #404040;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.NumberKey {
+  background-color: #060606;
+  font-weight: 500;
+}
+
+.OperatorKey {
+  font-weight: 100;
+}
+
+.EvaluateKey {
+  background-color: #134369;
+}
+
+.EvaluateKey:hover {
+  background-color: #0062b3;
 }
