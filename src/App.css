@@ -1,18 +1,35 @@
 .App {
+  display: flex;
+  flex-direction: column;
   padding: 0 10px 0 10px;
   height: 100vh;
   text-align: center;
   background-color: #1f1f1f;
 }
 
-.Result {
+.Display {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.Operand {
+  flex: 1 1 auto;
   color: white;
   font-size: 10vmin;
   text-align: right;
 }
 
+.Expression {
+  flex: 1 1 auto;
+  color: #a5a5a5;
+  font-size: 24px;
+  height: 24px;
+  text-align: right;
+}
+
 .KeyPad {
-  height: 50vh;
+  flex: 8 1 auto;
   display: flex;
   flex-direction: row;
 }
