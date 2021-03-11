@@ -13,7 +13,7 @@
   flex-direction: column;
 }
 
-.Operand {
+.TermInput {
   flex: 1 1 auto;
   color: white;
   font-size: 10vmin;
