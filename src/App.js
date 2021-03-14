@@ -2,8 +2,8 @@ import { useState } from 'react';
 import NumberPad from './components/NumberPad';
 import './App.css';
 
-const TermInput = ({ value }) => (
-	<div className="TermInput">
+const NumInput = ({ value }) => (
+	<div className="NumInput">
 		{value}
 	</div>
 );
@@ -37,8 +37,9 @@ const Expression = ({ value }) => (
 
 const App = () => {
 	const [numInput, setNumInput] = useState('0');
-	const [previousNum, setPreviousNum] = useState(null);
 	const [newInputReady, setNewInputReady] = useState(true);
+	const [previousNum, setPreviousNum] = useState(null);
+	const [currentNum, setCurrentNum] = useState(null);
 	const [operation, setOperation] = useState(null);
 
 	const inputNumeral = value => {
@@ -73,7 +74,11 @@ const App = () => {
 	}
 
 	const inputOperation = operator => {
-		setPreviousNum(numInput);
+		if (previousNum)
+			evaluate();
+		else
+			setPreviousNum(numInput);
+		
 		setNewInputReady(true);
 		setOperation(operator);
 	}
@@ -99,15 +104,13 @@ const App = () => {
 			default:
 		}
 
-		setPreviousNum(result);
-		setNewInputReady(true);
-		setOperation(null);
+		setPreviousNum(result.toString());
 		setNumInput(result);
 	}
 
 	const generateExpression = () => {
 		return `
-			State: previousNum = ${(previousNum || "")} numInput = ${numInput} operation = ${(operation || "") }
+			State: previousNum = ${(previousNum || "")} currentNum = ${(currentNum || "")} operation = ${(operation || "") }
 		`;
 	}
 
@@ -115,7 +118,7 @@ const App = () => {
 		<div className="App">
 			<div className="Display">
 				<Expression value={generateExpression()} />
-				<TermInput value={numInput} />
+				<NumInput value={numInput} />
 			</div>
 			<div className="KeyPad">
 				<NumberPad
