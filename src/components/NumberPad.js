@@ -1,7 +1,7 @@
 import React from 'react';
 import NumberKey from './NumberKey';
 
-const NumberPad = ({ inputNumeral, inputDecimal, negateResult }) => {
+const NumberPad = ({ inputNumeral, inputDecimal, negateTerm }) => {
 	const numRows = [7, 4, 1];
 	const numPad = numRows.map(row =>
 		<div key={row} className="NumberRow">
@@ -15,7 +15,7 @@ const NumberPad = ({ inputNumeral, inputDecimal, negateResult }) => {
 		<div className="NumberPad">
 			{numPad}
 			<div className="NumberRow">
-				<NumberKey value="+/-" onClick={negateResult} />
+				<NumberKey value="+/-" onClick={negateTerm} />
 				<NumberKey value={0} onClick={() => inputNumeral(0)} />
 				<NumberKey value="." onClick={inputDecimal} />
 			</div>

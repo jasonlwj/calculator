@@ -57,7 +57,14 @@ const App = () => {
 	}
 
 	const negateTerm = () => {
-		// console.log("negateTerm");
+		if (termInput === '0') 
+			return;
+
+		const newTermInput = (termInput.startsWith('-'))
+			? termInput.substring(1)
+			: '-'.concat(termInput);
+
+		setTermInput(newTermInput);
 	}
 
 	const inputOperator = operator => {
