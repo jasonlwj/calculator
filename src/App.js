@@ -8,8 +8,8 @@ const TermInput = ({ value }) => (
 	</div>
 );
 
-const EvaluateKey = ({ evaluate }) => (
-	<div className="Key EvaluateKey" onClick={evaluate}>
+const EvaluateKey = ({ onClick }) => (
+	<div className="Key EvaluateKey" onClick={onClick}>
 		=
 	</div>
 );
@@ -36,50 +36,78 @@ const Expression = ({ value }) => (
 );
 
 const App = () => {
-	const [termInput, setTermInput] = useState("0");
-	const [previousTerm, setPreviousTerm] = useState(null);
-	const [currentTerm, setCurrentTerm] = useState(null);
-	const [currentOperator, setCurrentOperator] = useState(null);
+	const [numInput, setNumInput] = useState('0');
+	const [previousNum, setPreviousNum] = useState(null);
+	const [newInputReady, setNewInputReady] = useState(true);
+	const [operation, setOperation] = useState(null);
 
 	const inputNumeral = value => {
-		const newTermInput = (termInput === "0") 
-			? value.toString()
-			: termInput + value;
+		if (newInputReady) {
+			setNewInputReady(false);
+			setNumInput('0');
+		} 
 
-		setTermInput(newTermInput);
+		const newNumInput = (newInputReady) 
+			? value.toString()
+			: numInput + value;
+
+		setNumInput(newNumInput);
 	}
 
 	const inputDecimal = () => {
-		if (termInput.includes('.'))
+		if (numInput.includes('.'))
 			return;
 
-		setTermInput(termInput + '.');
+		setNumInput(numInput + '.');
 	}
 
 	const negateTerm = () => {
-		if (termInput === '0') 
+		if (numInput === '0') 
 			return;
 
-		const newTermInput = (termInput.startsWith('-'))
-			? termInput.substring(1)
-			: '-'.concat(termInput);
+		const newNumInput = (numInput.startsWith('-'))
+			? numInput.substring(1)
+			: '-'.concat(numInput);
 
-		setTermInput(newTermInput);
+		setNumInput(newNumInput);
 	}
 
-	const inputOperator = operator => {
-		setPreviousTerm(termInput);
-		setCurrentTerm("");
-		setCurrentOperator(operator);
+	const inputOperation = operator => {
+		setPreviousNum(numInput);
+		setNewInputReady(true);
+		setOperation(operator);
 	}
 
 	const evaluate = () => {
-		// setCurrentTerm("here's your answer!");
+		const firstTerm = parseFloat(previousNum);
+		const secondTerm = parseFloat(numInput);
+		let result;
+
+		switch(operation) {
+			case '+': 
+				result = firstTerm + secondTerm;
+				break;
+			case '-': 
+				result = firstTerm - secondTerm;
+				break;
+			case '*': 
+				result = firstTerm * secondTerm;
+				break;
+			case '/': 
+				result = firstTerm / secondTerm;
+				break;
+			default:
+		}
+
+		setPreviousNum(result);
+		setNewInputReady(true);
+		setOperation(null);
+		setNumInput(result);
 	}
 
 	const generateExpression = () => {
 		return `
-			${(previousTerm || "")} ${(currentOperator || "")} ${(currentTerm || "")}
+			State: previousNum = ${(previousNum || "")} numInput = ${numInput} operation = ${(operation || "") }
 		`;
 	}
 
@@ -87,7 +115,7 @@ const App = () => {
 		<div className="App">
 			<div className="Display">
 				<Expression value={generateExpression()} />
-				<TermInput value={termInput} />
+				<TermInput value={numInput} />
 			</div>
 			<div className="KeyPad">
 				<NumberPad
@@ -96,10 +124,10 @@ const App = () => {
 					negateTerm={negateTerm}
 				/>
 				<div className="OperatorPad">
-					<OperatorKey operator={"/"} onClick={() => inputOperator("/")} />
-					<OperatorKey operator={"*"} onClick={() => inputOperator("*")} />
-					<OperatorKey operator={"-"} onClick={() => inputOperator("-")} />
-					<OperatorKey operator={"+"} onClick={() => inputOperator("+")} />
+					<OperatorKey operator={"/"} onClick={() => inputOperation("/")} />
+					<OperatorKey operator={"*"} onClick={() => inputOperation("*")} />
+					<OperatorKey operator={"-"} onClick={() => inputOperation("-")} />
+					<OperatorKey operator={"+"} onClick={() => inputOperation("+")} />
 					<EvaluateKey onClick={evaluate} />
 				</div>
 			</div>
